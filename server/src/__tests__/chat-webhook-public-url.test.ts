@@ -2,7 +2,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { deriveAuthTrustedOrigins } from "../auth/better-auth.js";
-import { parseChatWebhookPublicBaseUrl } from "../chat-webhook-public-url.js";
+import { parseChatWebhookPublicBaseUrl } from "../webhook-public-url.js";
 import { loadConfig } from "../config.js";
 import { boardMutationGuard } from "../middleware/board-mutation-guard.js";
 

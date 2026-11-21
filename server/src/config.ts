@@ -3,7 +3,7 @@ import { readConfigFile, resolveDeploymentMode } from "./config-file.js";
 import { isCloudManagedInstance } from "./services/cloud-instance.js";
 import { StartupRefusalError } from "./startup-refusals.js";
 import type { PaperclipConfig } from "@paperclipai/shared";
-import { parseChatWebhookPublicBaseUrl } from "./chat-webhook-public-url.js";
+import { parseChatWebhookPublicBaseUrl, parseRoutineWebhookPublicBaseUrl } from "./webhook-public-url.js";
 import { execFileSync } from "node:child_process";
 import { existsSync, realpathSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
@@ -73,6 +73,7 @@ export interface Config extends StorageConfig {
   authBaseUrlMode: AuthBaseUrlMode;
   authPublicBaseUrl: string | undefined;
   chatWebhookPublicBaseUrl: string | undefined;
+  routineWebhookPublicBaseUrl: string | undefined;
   authDisableSignUp: boolean;
   databaseMode: DatabaseMode;
   databaseUrl: string | undefined;
@@ -383,6 +384,9 @@ export function loadConfig(override?: PaperclipConfig | null): Config {
     authPublicBaseUrl,
     chatWebhookPublicBaseUrl: parseChatWebhookPublicBaseUrl(
       process.env.PAPERCLIP_CHAT_WEBHOOK_PUBLIC_URL,
+    ),
+    routineWebhookPublicBaseUrl: parseRoutineWebhookPublicBaseUrl(
+      process.env.PAPERCLIP_ROUTINE_WEBHOOK_PUBLIC_URL,
     ),
     authDisableSignUp,
     databaseMode: fileDatabaseMode,

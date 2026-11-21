@@ -203,7 +203,7 @@ import {
   type TeamsFileTransferOptions,
 } from "./chat-teams-file-transfers.js";
 
-import { parseChatWebhookPublicBaseUrl } from "../chat-webhook-public-url.js";
+import { parseChatWebhookPublicBaseUrl } from "../webhook-public-url.js";
 
 import { conflict, forbidden, notFound, unprocessable } from "../errors.js";
 import { logger } from "../middleware/logger.js";

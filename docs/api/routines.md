@@ -142,7 +142,7 @@ Three trigger kinds:
 Signing modes: `bearer` (default), `hmac_sha256`, `github_hmac`, and `none`.
 The replay window applies to `hmac_sha256` only: 30–86400 seconds (default 300).
 Creating a webhook returns `trigger` and one-time `secretMaterial` containing
-`webhookUrl` and `webhookSecret`. Save the secret before closing the dialog.
+`webhookUrl` and `webhookSecret`. Save the secret before closing the dialog. `webhookUrl` uses `PAPERCLIP_ROUTINE_WEBHOOK_PUBLIC_URL` as its origin when that is set, and otherwise the board's public URL.
 Routine details retain the URL; rotate the secret if its value is lost.
 
 **API** — fires only when called explicitly via [Manual Run](#manual-run):

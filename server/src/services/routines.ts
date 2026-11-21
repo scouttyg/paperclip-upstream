@@ -7,6 +7,7 @@ import { DELIVERY_QUEUES, notifyDeliveryWork } from "./delivery-work-notificatio
 import { verifyAppWebhook } from "./app-webhook.js";
 import { authenticateWebhookCreationRun, validateCreationRun } from "./task-creation-provenance.js";
 import crypto from "node:crypto";
+import { parseRoutineWebhookPublicBaseUrl } from "../webhook-public-url.js";
 import { verifyFirefliesWebhook } from "./fireflies-webhook.js";
 import { and, asc, desc, eq, gt, inArray, isNotNull, isNull, lte, ne, not, or, sql, type SQL } from "drizzle-orm";
 import type { Db } from "@paperclipai/db";
@@ -118,7 +119,11 @@ const WEEKDAY_INDEX: Record<string, number> = {
 };
 
 export function routineWebhookUrl(publicId: string): string {
-  const baseUrl = runtimePublicOrigin() ?? process.env.PAPERCLIP_API_URL?.trim();
+  // A webhook-only ingress origin wins, so a private board can expose just
+  // the public fire path through a separate hostname.
+  const baseUrl = parseRoutineWebhookPublicBaseUrl(process.env.PAPERCLIP_ROUTINE_WEBHOOK_PUBLIC_URL)
+    ?? runtimePublicOrigin()
+    ?? process.env.PAPERCLIP_API_URL?.trim();
   if (!baseUrl) throw new Error("PAPERCLIP_API_URL is required to create a routine webhook");
   return `${baseUrl.replace(/\/+$/, "")}/api/routine-triggers/public/${publicId}/fire`;
 }
